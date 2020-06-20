@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>归档</title>
+</head>
+<body>
+<!--头部导航-->
+<div th:replace="Index::topNav"></div>
+<!--中间部分-->
+<div class="container pt-3 pb-3" style="opacity: 70%">
+<!--    归档头部-->
+    <div class="card m-auto responsive-screen" >
+        <div class="card-header">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h4 style="color: #00FFFF;font-family: Serif" class="align-middle">归档</h4>
+                </div>
+                <div class="col text-right align-middle">
+                    共 <h5  class="mine-display text-warning" th:text="${#arrays.length(blog)}"></h5> 篇
+                </div>
+            </div>
+        </div>
+        <div class="card" th:each="map:${map}">
+            <div class="card-header text-center">
+                <span th:text="${map.key}">2020-1</span>
+            </div>
+            <ul class="list-group list-group-flush" th:each="blog:${map.value}">
+                    <li class="list-group-item  align-items-center">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" target="_self" style="text-decoration: none" class="text-secondary" th:text="${blog.title}" th:href="@{/blogDetails/}+${blog.id}"></a>
+                            </div>
+                            <div class="col text-right">
+                                <span class="badge border border-success text-success p-2" th:text="${blog.type.name}"></span>
+                            </div>
+                            <div class="col text-right">
+                                <span class="badge border border-warning text-warning p-2" th:text="${blog.tag.name}"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+    </div>
+</div>
+<div class="col text-right" >
+    <div class="btn-group-vertical">
+        <a  class="btn btn-secondary" href="#"><img src="../static/icons/chevron-up.svg" alt="" style="width: 2rem" th:src="@{/icons/chevron-up.svg}"></a>
+<!--        <button type="button" class="btn btn-secondary"><img src="../static/icons/chat-fill.svg" alt="图片加载错误" style="width: 2rem" th:src="@{/icons/chat-fill.svg}"></button>-->
+    </div>
+</div>
+<!--页尾-->
+<div th:replace="Index::bottomNav"></div>
+<!-- Optional JavaScript -->
+<script src="../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

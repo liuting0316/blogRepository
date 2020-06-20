@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>关于我</title>
+</head>
+<body>
+<!--头部导航-->
+<div th:replace="Index::topNav"></div>
+<!--中间内容-->
+<div class="container pt-4 pb-3" style="opacity: 70%">
+    <div class="row">
+<!--        左边图片-->
+        <div class="col-md-8">
+            <div class="card">
+                <img src="../static/img/background.jpg" alt="图片加载错误" class="img-fluid" style="height: auto" th:src="@{/img/background.jpg}">
+            </div>
+        </div>
+<!--        右边关于我-->
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row justify-content-between">
+                        <div class="col">
+                            <img src="../static/icons/info.svg" alt="" style="width: 2em" ;height="2em" th:src="@{/icons/info.svg}">关于我
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <p style="font-family: 'Microsoft Sans Serif';font-size: 14px" th:text="'刘挺，电子信息科学与技术专业毕业生，热爱java开发，欢迎访问我的博客。欢迎学习交流。'"></p>
+                        </li>
+                        <li class="list-group-item align-items-center aboutMe-border">
+                            <span class="badge border border-warning text-warning" th:text="'编程'">编程</span>
+                            <span class="badge border border-warning text-warning" th:text="'写作'">写作</span>
+                            <span class="badge border border-warning text-warning" th:text="'思考'">思考</span>
+                            <span class="badge border border-warning text-warning" th:text="'运动'">运动</span>
+                        </li>
+                        <li class="list-group-item align-items-center aboutMe-border">
+                            <span class="badge border border-primary text-primary" th:text="'Java'">Java</span>
+                            <span class="badge border border-primary text-primary " th:text="'JavaScript'">JavaScript</span>
+                            <span class="badge border border-primary text-primary " th:text="'MySql'">MySql</span>
+                            <span class="badge border border-primary text-primary " th:text="'Linux'">Linux</span>
+                        </li>
+                        <li class="list-group-item align-items-center">
+                            <a href="https://github.com" th:href="@{https://github.com}">
+                                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--页尾-->
+<div th:replace="Index::bottomNav"></div>
+<!-- Optional JavaScript -->
+<script src="../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

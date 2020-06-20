@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" href="../../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>登录</title>
+</head>
+<body class="login">
+<div class="container">
+    <div class="card mt-4" style="padding-top: 8rem;padding-bottom: 13rem;opacity: 50%">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center">
+                <form class="form-signin pl-4 pr-4" method="post" th:action="@{/admin/check}">
+                    <img class="mb-4" src="../../static/img/bootstrap-solid.svg" alt="" width="72" height="72" th:src="@{/img/bootstrap-solid.svg}">
+                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                    <label for="inputUsername" class="sr-only">username</label>
+                    <input type="text" id="inputUsername" class="form-control mb-3" placeholder="Username" name="username">
+                    <label for="inputPassword" class="sr-only ">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password">
+<!--                    如果登陆失败，提示msg内容-->
+                    <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+                    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Sign in</button>
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<script src="../../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/css/prism.css" th:href="@{/css/prism.css}">
+    <link rel="stylesheet" href="../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>博客详情</title>
+</head>
+<body>
+<!--头部导航-->
+<div th:replace="Index::topNav"></div>
+<!--中间内容-->
+<div class="container mt-4" >
+    <div class="card m-auto responsive-screen" >
+        <!--        浏览量-->
+        <div class="card-header pb-0" id="card">
+            <div class="row">
+                <div class="col-12 align-middle">
+                    <ul class="list-inline">
+                        <li class="list-inline-item disabled" style="display: inline">
+                            <img src="https://picsum.photos/id/1012/30/30" alt="图片加载错误" class="img-fluid rounded-circle" th:src="@{${blog.user.avatar}}" style="width: 30px;height: 30px;">
+                            <span th:text="${blog.user.nickName}">刘挺</span>
+                        </li>
+                        <li class="list-inline-item disabled" style="display: inline">
+                            <img src="../static/icons/calendar.svg" alt="图片加载错误" th:src="@{/icons/calendar.svg}">
+                            <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}"></span>
+                        </li>
+                        <li class="list-inline-item disabled" style="display: inline">
+                            <img src="../static/icons/eye.svg" alt="图片加载错误" th:src="@{/icons/eye.svg}">
+                            <span th:text="${blog.views}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body pt-0 pl-0 pr-0 pb-0" >
+            <!--            图片-->
+            <img src="../static/img/title.jpg"  class="img-fluid" th:src="@{${blog.firstPicture}}" style="width: 100%;height:auto;">
+        </div>
+        <!--        文章内容-->
+        <div class="card-body pr-5 pl-5" >
+            <div class="d-flex justify-content-end">
+                <span class="badge border border-success text-success mr-4" th:text="${blog.flag}">原创</span>
+                <span class="badge border border-success text-success" th:text="${blog.tag.name}">方法论</span>
+            </div>
+            <div class="typo typo-selection" id="content">
+                <h4 class="card-title text-center" style="font-family: Serif" th:text="${blog.title}">这是文章标题</h4>
+                <p th:utext="${blog.content}"></p>
+            </div>
+            <!--            赞-->
+            <div th:fragment="appreciate" id="appre">
+                <div class="d-flex justify-content-center text-warning" th:if="${blog.appreciate}" >
+                    <a class="btn btn-outline-warning" href="#" role="button"  target="_self" name="appreciateCount" th:attr="value=${blog.id}" onclick="appreciate(this);return false;" >
+                        赞
+                        <span th:text="${appreciateCount}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--        文章信息-->
+        <div class="card-body" style="background-color: #99FF99;" th:if="${blog.copyright}" >
+            <div class="row">
+                <div class="col-md-8">
+                    <ui class="list">
+                        <li th:text="'作者：'+${blog.user.nickName}">作者：刘挺</li>
+                        <li th:text="'发表时间：'+${#dates.format(blog.updateTime,'yyyy-MM-dd')}">发表时间：2020-2-16 14:42</li>
+                        <li th:text="'版权声明：自由转载-非商用-非衍生-保持署名(创意共享3.0许可证)'">版权声明：自由转载-非商用-非衍生-保持署名(创意共享3.0许可证)</li>
+                        <li th:text="'公众号转载：请在文末添加作者二维码'">公众号转载：请在文末添加作者二维码</li>
+                    </ui>
+                </div>
+                <div class="col-md-4 text-center" id="commentArea" >
+                    <img src="../static/img/wechat.png" alt="" style="width: 120px" th:src="@{/img/wechat.png}">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!--        评论区-->
+        <div th:fragment="comment" id="comm">
+            <div class="card-body pl-4 pr-4"  th:if="${blog.comments}" >
+                <div class="comment" th:each="comment:${blog.comment}">
+                    <div class="media mb-2"th:if="${comment.parentCommentId}==null" >
+                        <img src="https://picsum.photos/id/103/50/50" class="mr-3" alt="" th:src="@{${comment.avatar}}" style="width: 50px;height: 50px">
+                        <div class="media-body">
+                            <div class="row">
+                                <div class="col-md">
+                                    <p class="mt-0 nickName" th:text="${comment.nickName}"   style="font-family: SansSerif;"></p>
+                                </div>
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                                        </div>
+                                        <div class="col">
+                                            <a  href="#commentForm" role="button" type="button" class="text-decoration-none text-dark reply-btn" id="commentId" th:attr="value=${comment.id}" onclick="reply(this)">回复</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <span th:text="${comment.comment}" ></span>
+                            <!--                    回复-->
+                            <div class="reply mt-2" th:each="comments:${blog.comment}">
+                                <div class="media mb-2" th:if="${comments.parentCommentId}==${comment.id}" >
+                                    <img src="https://picsum.photos/id/103/50/50" class="mr-3" alt=""  style="width: 50px;height: 50px" th:src="@{${comments.avatar}}">
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <p class="mt-0 nickName" style="font-family: SansSerif;" th:text="${comments.nickName}"></p>
+                                            </div>
+                                            <div class="col-md">
+                                                <span th:text="${#dates.format(comments.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                                            </div>
+                                        </div>
+                                        <span th:text="${comments.comment}" ></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="text-center pt-3 commentArea" id="commentForm" method="post" th:action="@{/comment/}+${blog.id}">
+                    <hr>
+                    <div class="form-group pt-3">
+                        <textarea name="comment" id="comment" placeholder="请输入评论内容" style="width: 90%;height: 8rem;" ></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">昵称</span>
+                                </div>
+                                <input type="text" name="nickName" id="nickName" class="form-control" placeholder="用户名" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">邮箱</span>
+                                </div>
+                                <input type="text" name="mail" id="mail" class="form-control" placeholder="邮箱地址" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: red" th:text="${Warning}" th:if="${not #strings.isEmpty(Warning)}"></p>
+                    <button type="button" id="comment-btn" class="btn btn-primary" onclick="commit(this)" th:attr="value=${blog.id}">评论</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col text-right" >
+    <div class="btn-group-vertical">
+        <a href="#" class="btn btn-secondary"><img src="../static/icons/chevron-up.svg" alt="" style="width: 2rem" th:src="@{/icons/chevron-up.svg}"></a>
+        <a role="button" href="#commentArea" class="btn btn-secondary"><img src="../static/icons/chat-fill.svg" alt="图片加载错误" style="width: 2rem" th:src="@{/icons/chat-fill.svg}" ></a>
+    </div>
+</div>
+
+<!--页尾-->
+<div th:replace="Index::bottomNav"></div>
+<!-- Optional JavaScript -->
+<script src="../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script src="../static/js/prism.js" th:src="@{/js/prism.js}"></script>
+<script  th:inline="javascript">
+function reply(obj) {
+    var commentId=$(obj).attr('value');
+    $.ajax({
+        type: 'POST',
+        url: '/reply',
+        cache:false,
+        data:{"commentId":commentId},
+    });
+}
+function commit(obj) {
+    var blogId=$(obj).attr('value');
+    var comment=$('#comment').val();
+    var nickName=$('#nickName').val();
+    var mail=$('#mail').val();
+    $.ajax({
+        type: 'POST',
+        url: '/comment',
+        cache:false,
+        data:{"id":blogId,'comment':comment,'nickName':nickName,'mail':mail},
+        success:function (data) {
+            $('#comm').html(data);
+        },
+        error:function () {
+            alert("提交失败");
+        }
+    });
+}
+function appreciate(obj) {
+    var blogId=$(obj).attr('value');
+    $.ajax({
+        type: 'GET',
+        url: '/appreciate',
+        cache:false,
+        data:{'id':blogId},
+        success:function (data) {
+            $('#appre').html(data);
+
+        },
+        error:function () {
+            alert("提交失败")
+        }
+
+    });
+}
+</script>
+</body>
+</html>

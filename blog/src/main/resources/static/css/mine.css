@@ -1,0 +1,42 @@
+/*首页*/
+body{
+    background: url("../img/bglogin.jpg");
+}
+.login{
+    background: url("../img/bglogin.jpg");
+}
+.mine-display{
+    display: inline-block;
+}
+.mine-border{
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+}
+a[class=text-secondary]:hover{
+    color:#000000;
+    font-size: larger;
+}
+.mine-padding{
+    padding: 0px;
+    margin: 5px;
+}
+
+/*分类页*/
+.type-margin>button{
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+@media(min-width:992px){
+    .responsive-screen{
+        width: 75%;
+    }
+    .tag-border{
+        margin-left: 370px;
+        margin-right: 30px;
+    }
+}
+/*关于我页面*/
+.aboutMe-border>span{
+    padding: 5px 15px;
+}

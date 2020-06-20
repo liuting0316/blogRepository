@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" href="../../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>博客发布</title>
+</head>
+<body class="login">
+<!--头部导航-->
+<div th:replace="admin/BlogManager::navBar"></div>
+<!--二级导航-->
+<nav class="navbar navbar-light bg-light" style="opacity: 60%">
+    <div class="container justify-content-end">
+        <ul class="nav nav-tabs ">
+            <li class="nav-item">
+                <a class="nav-link text-secondary" href="BlogManager.html" th:href="@{/admin/BlogManager}">列表</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary active" href="BlogInputs.html" th:href="@{/admin/BlogInputs}">发布</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--中间部分-->
+<div class="container pt-4 pb-3">
+    <div class="card m-auto responsive-screen" style="opacity: 60%">
+        <form action="#" id="blogForm" method="post" class="form mb-3 mt-4" th:action="@{/admin/BlogInsert}">
+            <input type="hidden" name="publish">
+<!--            定义put方式修改-->
+            <input type="hidden" name="_method" value="put" th:if="${blog1}!=null"/>
+            <input type="hidden" name="id" th:if="${blog1}!=null" th:value="${blog1.id}">
+            <div class="row mb-3">
+                <div class="col-2">
+                    <select id="inputTag" class="form-control-sm text-success border-success" name="flag" th:value="${blog1}!=null?${blog1.flag}">
+                        <option value="原创" th:selected="${blog1}!=null?${blog1.flag eq '原创'}">原创</option>
+                        <option value="转载" th:selected="${blog1}!=null?${blog1.flag eq '转载'}">转载</option>
+                    </select>
+                </div>
+                <div class="col-10 text-center ">
+                    <input type="text" placeholder="标题" name="title" style="width: 100%" th:value="${blog1}!=null?${blog1.title}">
+                </div>
+            </div>
+            <p style="color: red" th:text="${blogWarning}" th:if="${not #strings.isEmpty(blogWarning)}" class="text-center"></p>
+            <div class="textarea">
+                <div id="md-content" style="z-index: 1">
+                    <textarea name="content" id="editEssay" style="width: 100%;height: auto;display: none"placeholder="博客内容" th:text="${blog1}!=null?${blog1.content}"></textarea>
+                </div>
+            </div>
+
+<!--            首图-->
+            <div class="input-group mb-3 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">首图地址</span>
+                </div>
+                <input type="text" class="form-control " placeholder="请输入地址" aria-label="Username" aria-describedby="basic-addon1" name="firstPicture" th:value="${blog1}!=null?${blog1.firstPicture}">
+            </div>
+<!--            博客介绍-->
+            <div class="input-group mb-3">
+                <textarea class="form-control" aria-label="With textarea" name="describe" placeholder="请输入博客介绍" style="width: 100%;height: 10rem;" th:text="${blog1}!=null?${blog1.describe}"></textarea>
+            </div>
+<!--            分类与标签选择-->
+            <div class="row">
+                <div class="col" style="margin-left: 30px">
+                    <div class="input-group mb-1">
+
+                        <div class="input-group-prepend">
+                            <span class="border text-success border-success rounded-0 pt-1 pl-2 pr-2" style="font-family: Serif">分类</span>
+                        </div>
+                        <div class="input-group-prepend" >
+                            <select id="inputState" class="form-control border-success rounded-0 text-success" name="type.id" th:value="${blog1}!=null?${blog1.type.id}">
+                                <option  th:text="${types.name}" th:each="types:${type}" th:value="${types.id}" th:selected="${blog1}!=null?${types.id eq blog1.type.id}"></option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col tag-border" style="margin-right: 30px">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="border text-danger border-danger rounded-0 pt-1 pl-2 pr-2" style="font-family: Serif">标签</span>
+                        </div>
+                        <div class="input-group-prepend" >
+                            <select id="inputTags" class="form-control border-danger rounded-0 text-danger" name="tag.id" th:value="${blog1}!=null?${blog1.tag.id}" >
+                                <option  th:text="${tags.name}" th:each="tags:${tag}" th:value="${tags.id}" th:selected="${blog1}!=null?${tags.id eq blog1.tag.id}" ></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="from-check-inline text-center">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1"  name="recommend" th:checked="${blog1}!=null?${blog1.recommend}">
+                    <label class="form-check-label" for="inlineCheckbox1">推荐</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2"  name="copyright" th:checked="${blog1}!=null?${blog1.copyright}">
+                    <label class="form-check-label" for="inlineCheckbox2">转载声明</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3"  name="appreciate" th:checked="${blog1}!=null?${blog1.appreciate}">
+                    <label class="form-check-label" for="inlineCheckbox3">赞赏</label>
+                </div>
+                <div class="form-check form-check-inline mb-2 mt-2">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4"  name="comments" th:checked="${blog1}!=null?${blog1.comments}">
+                    <label class="form-check-label" for="inlineCheckbox4">评论</label>
+                </div>
+            </div>
+            <div class="d-flex justify-content-around">
+                <a class="btn btn-outline-success text-success" role="button" th:href="@{/admin/BlogManager}">返回</a>
+                <button type="button" id="saveBtn" class="btn btn-outline-secondary">保存</button>
+                <button type="button" id="publishBtn" class="btn btn-outline-primary " th:text="${blog1}!=null?'修改':'发布'"></button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--页尾-->
+<div th:replace="Index::bottomNav"></div>
+<!-- Optional JavaScript -->
+<script src="../../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+<script>
+<!--    markdown-->
+    var testEditor;
+    $(function() {
+        testEditor = editormd("md-content", {
+            width   : "100%",
+            height  : 640,
+            emoji: true,//emoji表情，默认关闭
+            taskList: true,
+            tocm: true, // Using [TOCM]
+            tex: true,// 开启科学公式TeX语言支持，默认关闭
+            flowChart: true,//开启流程图支持，默认关闭
+            sequenceDiagram: true,//开启时序/序列图支持，默认关闭,
+            syncScrolling : "single",
+            // path: "../static/lib/editormd/lib/",
+            path: "/lib/editormd/lib/",
+            saveHTMLToTextarea:true //方便提交表单数据
+        });
+    });
+
+
+//    发布与保存
+    $('#saveBtn').click(function () {
+        $('[name="publish"]').val(false);
+        $('#blogForm').submit();
+    });
+    $('#publishBtn').click(function () {
+        $('[name="publish"]').val(true);
+        $('#blogForm').submit();
+    });
+
+</script>
+</body>
+</html>

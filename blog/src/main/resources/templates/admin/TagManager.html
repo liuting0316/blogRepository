@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>标签管理</title>
+</head>
+<body>
+<!--头部导航-->
+<div th:replace="admin/BlogManager::navBar"></div>
+<!--二级导航-->
+<nav class="navbar navbar-light bg-light" style="opacity: 60%">
+    <div class="container justify-content-end">
+        <ul class="nav nav-tabs ">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/admin/TagManager}">列表</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary" th:href="@{/admin/TagInputs}">新增</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--中间部分-->
+<div class="container pt-4 pb-3" style="opacity: 70%">
+    <div class="card m-auto responsive-screen">
+        <table class="table mt-3 align-middle">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tag,iterStat:${tags}">
+                    <th scope="row" th:text="${iterStat.count}">1</th>
+                    <td class="align-middle" th:text="${tag.name}">练习清单</td>
+                    <td>
+                        <a class="btn btn-primary" role="button" th:href="@{/admin/TagManager/update/}+${tag.id}">编辑</a>
+                        <button  th:attr="del_uri=@{/admin/TagManager/delete/}+${tag.id}" class="btn btn-danger deleteBtn" >删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="color: red" th:if="${not #strings.isEmpty(tagMesg)}" th:text="${tagMesg}" class="text-center"></p>
+        <form action=""  method="post" id="deleteForm">
+            <input type="hidden" name="_method" value="delete"/>
+        </form>
+<!--        分页-->
+        <div class="row">
+            <div class="col-8">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item " th:class="${pageInfo.isIsFirstPage()}?'page-item disabled':'page-item'">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true" th:href="@{/admin/TagManager(pageNum=${pageInfo.prePage})}">上一页</a>
+                        </li>
+                        <li class="page-item" th:class="${pageInfo.isIsLastPage()}?'page-item disabled':'page-item'">
+                            <a class="page-link" href="#" th:href="@{/admin/TagManager(pageNum=${pageInfo.nextPage})}">下一页</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+<!--            新增按钮-->
+            <div class="col-4 text-center">
+                <a class="btn btn-success" href="TagInputs.html" role="button" th:href="@{/admin/TagInputs}">新增</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--页尾-->
+<div th:replace="Index::bottomNav"></div>
+<!-- Optional JavaScript -->
+<script src="../../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#deleteForm").attr("action",$(this).attr("del_uri")).submit();
+        return false;
+    });
+</script>
+</body>
+</html>

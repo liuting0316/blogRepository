@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/css/mine.css" th:href="@{/css/mine.css}">
+    <title>标签编辑</title>
+</head>
+<body class="login">
+<!--头部导航-->
+<div th:replace="admin/BlogManager::navBar"></div>
+<!--二级导航-->
+<nav class="navbar navbar-light bg-light">
+    <div class="container justify-content-end">
+        <ul class="nav nav-tabs ">
+            <li class="nav-item">
+                <a class="nav-link text-secondary"  th:href="@{/admin/TagManager}">列表</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary active" th:href="@{/admin/TagInputs}">新增</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--中间部分-->
+<div class="container pt-4 pb-3" style="opacity: 60%">
+    <div class="card m-auto responsive-screen" >
+        <form action="#" name="tag" method="post" class="form pl-3 pr-3" style="margin-top: 8rem;margin-bottom: 8rem;" th:action="@{/admin/TagCommit}">
+            <input type="hidden" name="_method" value="put" th:if="${tag1}!=null"/>
+            <input type="hidden" name="id" th:if="${tag1}!=null" th:value="${tag1.id}">
+            <div class="input-group mb-3 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">标签</span>
+                </div>
+<!--                如果type不为空则为修改，反之则为添加-->
+                <input type="text" class="form-control" placeholder="请输入标签" aria-label="Username" aria-describedby="basic-addon1" name="name" th:value="${tag1}!=null?${tag1.name}"/>
+            </div>
+            <p style="color: red" th:text="${message}" th:if="${not #strings.isEmpty(message)}" class="text-center"></p>
+            <div class="d-flex justify-content-around">
+                <a class="btn btn-outline-primary" role="button" th:href="@{/admin/TagManager}">返回</a>
+                <button class="btn btn-outline-success" type="submit" th:text="${tag1}!=null?'修改':'添加'">添加</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--页尾-->
+<div th:replace="Index::bottomNav"></div>
+<!-- Optional JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<!--<script src="../static/js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>
